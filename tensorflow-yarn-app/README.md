@@ -11,11 +11,12 @@ Note that current project is a prototype with limitation and is still under deve
 - [x] RPC support for client to get ClusterSpec from AM
 - [x] Signal handling for graceful shutdown
 - [x] Package TensorFlow runtime as a resource that can be distributed easily
-- [x] Client mode (run in-graph TensorFlow application)
-- [ ] Cluster mode (run between-graph application)
+- [ ] A launcher script for client mode to run multiple TensorFlow application clients
+- [ ] Run in-graph TensorFlow application in client mode
 - [ ] TensorBoard support
 - [ ] Better handling of network port conflicts
 - [ ] Fault tolerance
+- [ ] Cluster mode based on Docker
 - [ ] Code refine and more tests
 
 ## Quick Start Guide 

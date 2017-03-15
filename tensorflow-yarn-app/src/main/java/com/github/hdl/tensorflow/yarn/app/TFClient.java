@@ -21,15 +21,14 @@ package com.github.hdl.tensorflow.yarn.app;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 
-public class TFClient implements Runnable {
+public class TFClient {
 
   private static final Log LOG = LogFactory.getLog(TFClient.class);
   public static final String TF_CLIENT_PY = "tf_client.py";
@@ -41,33 +40,11 @@ public class TFClient implements Runnable {
   private String workers = null;
   private String pses = null;
 
-  private void execCmd(String cmd) {
-    Process process = null;
+  private void execCmd(List<String> cmd) {
     try {
-      LOG.info("cmd is " + cmd);
-      process = Runtime.getRuntime().exec(cmd);
-    } catch (IOException e) {
-      LOG.fatal("cmd running failed", e);
-      e.printStackTrace();
-    }
-
-    try {
-      LOG.info("cmd log--->");
-      BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-      String line;
-      while ((line = in.readLine()) != null) {
-
-        LOG.info(line);
-        System.out.println(line);
-      }
-      in.close();
-      LOG.info("<---cmd log end");
+      Process process = new ProcessBuilder().command(cmd).inheritIO().start();
       process.waitFor();
-    } catch (InterruptedException e) {
-      LOG.fatal("waiting error ", e);
-      e.printStackTrace();
-    } catch (IOException e) {
-      LOG.info("io exception");
+    } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     }
   }
@@ -119,21 +96,18 @@ public class TFClient implements Runnable {
 
     LOG.info("workers: <" + workers + ">;" + "pses: <" + pses + ">");
 
-    Thread thread = new Thread(this);
-    thread.start();
-
-  }
-
-  @Override
-  public void run() {
-    String cmd = "python " + tfClientPy;
+    List<String> cmd = new ArrayList<>();
+    cmd.add("python");
+    cmd.add(tfClientPy);
 
     if (workers != null) {
-      cmd += " " + TFApplication.makeOption(TF_PY_OPT_WORKERS, "\"" + workers + "\"");
+      cmd.add("--" + TF_PY_OPT_WORKERS);
+      cmd.add(workers);
     }
 
     if (pses != null) {
-      cmd += " " + TFApplication.makeOption(TF_PY_OPT_PSES, "\"" + pses + "\"");
+      cmd.add("--" + TF_PY_OPT_PSES);
+      cmd.add(pses);
     }
 
     LOG.info("TF client command is [" + cmd + "]");

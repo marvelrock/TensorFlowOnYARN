@@ -18,8 +18,8 @@ tf.app.flags.DEFINE_string("wk", "", "worker hosts")
 
 FLAGS = tf.app.flags.FLAGS
 
-ps_hosts = FLAGS.ps.split(',')
-worker_hosts = FLAGS.wk.split(',')
+ps_hosts = FLAGS.ps.strip('"').split(',')
+worker_hosts = FLAGS.wk.strip('"').split(',')
 
 cluster = tf.train.ClusterSpec({'ps': ps_hosts, 'worker': worker_hosts})
 

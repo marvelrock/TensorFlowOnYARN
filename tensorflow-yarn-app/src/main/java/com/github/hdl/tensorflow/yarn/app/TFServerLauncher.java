@@ -18,7 +18,7 @@
 
 package com.github.hdl.tensorflow.yarn.app;
 
-
+import com.github.hdl.tensorflow.bridge.TFServer;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Options;
@@ -26,15 +26,13 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
 
-public class TFServer {
-  private static final Log LOG = LogFactory.getLog(TFServer.class);
+public class TFServerLauncher {
+  private static final Log LOG = LogFactory.getLog(TFServerLauncher.class);
 
   public static final String OPT_CS = "cs";
   public static final String OPT_TI = "ti";
@@ -51,7 +49,7 @@ public class TFServer {
 
   public static void main(String[] args) {
     LOG.info("start container");
-    TFServer server = new TFServer();
+    TFServerLauncher server = new TFServerLauncher();
     try {
       try {
         if (!server.init(args)) {
@@ -68,7 +66,7 @@ public class TFServer {
   }
 
 
-  public TFServer() {
+  public TFServerLauncher() {
     opts = new Options();
     opts.addOption(OPT_CS, true, "tf server cluster spec");
     opts.addOption(OPT_JN, true, "tf job name");
@@ -96,46 +94,10 @@ public class TFServer {
     return true;
   }
 
-
-  private void execCmd(String cmd) {
-    Process process = null;
-    try {
-      LOG.info("cmd is " + cmd);
-      process = Runtime.getRuntime().exec(cmd);
-    } catch (IOException e) {
-      LOG.fatal("cmd running failed", e);
-      e.printStackTrace();
-    }
-
-    try {
-      LOG.info("cmd log--->");
-      BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-      String line;
-      while ((line = in.readLine()) != null) {
-
-        LOG.info(line);
-        System.out.println(line);
-      }
-      in.close();
-      LOG.info("<---cmd log end");
-      process.waitFor();
-    } catch (InterruptedException e) {
-      LOG.fatal("waiting error ", e);
-      e.printStackTrace();
-    } catch (IOException e) {
-      LOG.info("io exception");
-      e.printStackTrace();
-    }
-  }
-
   public void startTFServer() {
     LOG.info("Launch a new tensorflow " + jobName + taskIndex);
- /*       try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-    org.tensorflow.bridge.TFServer server = new org.tensorflow.bridge.TFServer(cluster, jobName, taskIndex);
+
+    TFServer server = new TFServer(cluster, jobName, taskIndex);
     server.start();
     server.join();
     LOG.info("Ternsorflow " + jobName + taskIndex + "stopped!");

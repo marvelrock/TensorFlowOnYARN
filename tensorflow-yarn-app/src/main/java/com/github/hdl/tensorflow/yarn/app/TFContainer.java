@@ -140,7 +140,7 @@ public class TFContainer {
     // Set the java environment
     Map<String, String> env = new HashMap<String, String>();
 
-    // Add TFServer.jar location to classpath
+    // Add TFServerLauncher.jar location to classpath
     StringBuilder classPathEnv = new StringBuilder(ApplicationConstants.Environment.CLASSPATH.$$())
         .append(ApplicationConstants.CLASS_PATH_SEPARATOR).append("./*");
 
@@ -173,13 +173,13 @@ public class TFContainer {
     vargs.add(ApplicationConstants.Environment.JAVA_HOME.$$() + "/bin/java");
     //vargs.add("-Xmx" + containerMemory + "m");
     vargs.add("-Xmx" + containerMemory + "m");
-    String containerClassName = TFServer.class.getName();
+    String containerClassName = TFServerLauncher.class.getName();
     vargs.add(containerClassName);
-    vargs.add("--" + TFServer.OPT_CS + " " + clusterSpec);
-    vargs.add("--" + TFServer.OPT_JN + " " + jobName);
-    vargs.add("--" + TFServer.OPT_TI + " " + taskIndex);
-    vargs.add("1>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/TFServer." + ApplicationConstants.STDOUT);
-    vargs.add("2>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/TFServer." + ApplicationConstants.STDERR);
+    vargs.add("--" + TFServerLauncher.OPT_CS + " " + clusterSpec);
+    vargs.add("--" + TFServerLauncher.OPT_JN + " " + jobName);
+    vargs.add("--" + TFServerLauncher.OPT_TI + " " + taskIndex);
+    vargs.add("1>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/TFServerLauncher." + ApplicationConstants.STDOUT);
+    vargs.add("2>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/TFServerLauncher." + ApplicationConstants.STDERR);
 
     // Get final commmand
     StringBuilder command = new StringBuilder();

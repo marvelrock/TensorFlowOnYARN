@@ -17,10 +17,36 @@
 
 language: java
 
+os:
+  - linux
+
+jdk:
+  - oraclejdk8
+
+python:
+  - '2.7'
+
 sudo: false
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - wget
+      - oracle-java8-installer
+      - g++-4.8
+
+before_install:
+  # BAZEL
+  # Based on https://github.com/korfuri/bazel-travis
+  - wget 'https://github.com/bazelbuild/bazel/releases/download/0.4.5/bazel-0.4.5-installer-linux-x86_64.sh'
+  - chmod +x bazel-0.4.5-installer-linux-x86_64.sh
+  - ./bazel-0.4.5-installer-linux-x86_64.sh --user
+  - cat ~/.bazelrc >> .bazelrc
+
 install:
-  travis_retry mvn -B install clean -U -DskipTests=true
+  travis_retry /bin/bash ./build.sh 1
 cache:
   directories:
     - $HOME/.m2/repository

@@ -38,12 +38,7 @@ public class LaunchContainerThread implements Runnable {
     this.jniSoDfsPath = jniSoDfsPath;
   }
 
-  public void setTfSoDfsPath(String tfSoDfsPath) {
-    this.tfSoDfsPath = tfSoDfsPath;
-  }
-
   private String jniSoDfsPath;
-  private String tfSoDfsPath;
   private long containerMemory = 10;
 
   // Container retry options
@@ -148,9 +143,6 @@ public class LaunchContainerThread implements Runnable {
       tfContainer.addToLocalResources(fs, tfServerJar, TFContainer.SERVER_JAR_PATH, localResources);
       if (jniSoDfsPath != null && !jniSoDfsPath.equals("")) {
         tfContainer.addToLocalResources(fs, jniSoDfsPath, "libbridge.so", localResources);
-      }
-      if (tfSoDfsPath != null && !tfSoDfsPath.equals("")) {
-        tfContainer.addToLocalResources(fs, tfSoDfsPath, "libgrpc_tensorflow_server.so", localResources);
       }
 
     } catch (IOException e) {

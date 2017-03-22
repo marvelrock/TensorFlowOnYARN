@@ -17,23 +17,23 @@
  */
 package com.github.hdl.tensorflow.yarn.app.api.impl.pb.service;
 
-import com.github.hdl.tensorflow.yarn.app.api.TensorflowCluster;
-import com.github.hdl.tensorflow.yarn.app.api.TensorflowClusterPB;
+import com.github.hdl.tensorflow.yarn.app.api.TensorFlowCluster;
+import com.github.hdl.tensorflow.yarn.app.api.TensorFlowClusterPB;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.GetClusterSpecResponse;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.impl.pb.GetClusterSpecRequestPBImpl;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.impl.pb.GetClusterSpecResponsePBImpl;
-import com.github.hdl.tensorflow.yarn.proto.YarnTensorflowClusterProtos.GetClusterSpecRequestProto;
-import com.github.hdl.tensorflow.yarn.proto.YarnTensorflowClusterProtos.GetClusterSpecResponseProto;
 import com.google.protobuf.RpcController;
 import com.google.protobuf.ServiceException;
 import org.apache.hadoop.yarn.exceptions.YarnException;
+import org.apache.hadoop.yarn.proto.YarnTensorFlowClusterProtos.GetClusterSpecRequestProto;
+import org.apache.hadoop.yarn.proto.YarnTensorFlowClusterProtos.GetClusterSpecResponseProto;
 
 import java.io.IOException;
 
-public class TensorflowClusterPBServiceImpl implements TensorflowClusterPB {
-  private TensorflowCluster real;
+public class TensorFlowClusterPBServiceImpl implements TensorFlowClusterPB {
+  private TensorFlowCluster real;
 
-  public TensorflowClusterPBServiceImpl(TensorflowCluster impl) {
+  public TensorFlowClusterPBServiceImpl(TensorFlowCluster impl) {
     this.real = impl;
   }
 

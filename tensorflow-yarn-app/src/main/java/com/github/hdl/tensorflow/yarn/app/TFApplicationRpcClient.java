@@ -18,7 +18,7 @@
 
 package com.github.hdl.tensorflow.yarn.app;
 
-import com.github.hdl.tensorflow.yarn.app.api.TensorflowCluster;
+import com.github.hdl.tensorflow.yarn.app.api.TensorFlowCluster;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.GetClusterSpecRequest;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.GetClusterSpecResponse;
 import org.apache.hadoop.conf.Configuration;
@@ -36,7 +36,7 @@ public class TFApplicationRpcClient implements TFApplicationRpc {
   private String serverAddress;
   private int serverPort;
   private RecordFactory recordFactory = RecordFactoryProvider.getRecordFactory(null);
-  private TensorflowCluster tensorflow;
+  private TensorFlowCluster tensorflow;
 
   public TFApplicationRpcClient(String serverAddress, int serverPort) {
     this.serverAddress = serverAddress;
@@ -54,9 +54,9 @@ public class TFApplicationRpcClient implements TFApplicationRpc {
     Configuration conf = new Configuration();
     RetryPolicy retryPolicy = RMProxy.createRetryPolicy(conf, false);
     try {
-      TensorflowCluster proxy = RMProxy.createRMProxy(conf, TensorflowCluster.class, address);
-      this.tensorflow = (TensorflowCluster) RetryProxy.create(
-          TensorflowCluster.class, proxy, retryPolicy);
+      TensorFlowCluster proxy = RMProxy.createRMProxy(conf, TensorFlowCluster.class, address);
+      this.tensorflow = (TensorFlowCluster) RetryProxy.create(
+          TensorFlowCluster.class, proxy, retryPolicy);
       return this;
     } catch (IOException e) {
       return null;

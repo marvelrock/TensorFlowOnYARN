@@ -46,36 +46,6 @@ public class TFAmContainer {
     this.client = client;
   }
 
- /*   public void addToLocalResources(FileSystem fs, String fileSrcPath,
-                                     String fileDstPath, String appId, Map<String, LocalResource> localResources,
-                                     String resources) throws IOException {
-        String suffix =
-                client.getAppName() + "/" + appId + "/" + fileDstPath;
-        Path dst =
-                new Path(fs.getHomeDirectory(), suffix);
-        if (fileSrcPath == null) {
-            FSDataOutputStream ostream = null;
-            try {
-                ostream = FileSystem
-                        .create(fs, dst, new FsPermission((short) 0710));
-                ostream.writeUTF(resources);
-            } finally {
-                IOUtils.closeQuietly(ostream);
-            }
-        } else {
-            fs.copyFromLocalFile(new Path(fileSrcPath), dst);
-        }
-
-        LOG.info("copy: " + fileSrcPath + " ===> " + dst.toString());
-        FileStatus scFileStatus = fs.getFileStatus(dst);
-        LocalResource scRsrc =
-                LocalResource.newInstance(
-                        URL.fromURI(dst.toUri()),
-                        LocalResourceType.FILE, LocalResourceVisibility.APPLICATION,
-                        scFileStatus.getLen(), scFileStatus.getModificationTime());
-        localResources.put(fileDstPath, scRsrc);
-    }*/
-
   public void addToLocalResources(FileSystem fs, Path dst, String fileDstPath, Map<String, LocalResource> localResources) throws IOException {
     FileStatus scFileStatus = fs.getFileStatus(dst);
     LocalResource scRsrc =
@@ -118,7 +88,7 @@ public class TFAmContainer {
 
 
   public StringBuilder makeCommands(long amMemory, String appMasterMainClass, int containerMemory, int containerVirtualCores,
-                                    int workerNumContainers, int psNumContainers, String jarDfsPath, Vector<CharSequence> containerRetryOptions, String jniSoDfsPath, String tfSoDfsPath) {
+                                    int workerNumContainers, int psNumContainers, String jarDfsPath, Vector<CharSequence> containerRetryOptions, String jniSoDfsPath) {
     // Set the necessary command to execute the application master
     Vector<CharSequence> vargs = new Vector<CharSequence>(30);
 
@@ -137,9 +107,6 @@ public class TFAmContainer {
     vargs.add("--" + TFApplication.OPT_TF_SERVER_JAR + " " + String.valueOf(jarDfsPath));
     if (jniSoDfsPath != null && !jniSoDfsPath.equals("")) {
       vargs.add(TFApplication.makeOption(TFApplication.OPT_TF_JNI_SO, jniSoDfsPath));
-    }
-    if (tfSoDfsPath != null && !tfSoDfsPath.equals("")) {
-      vargs.add(TFApplication.makeOption(TFApplication.OPT_TF_TF_SO, tfSoDfsPath));
     }
 
     vargs.addAll(containerRetryOptions);

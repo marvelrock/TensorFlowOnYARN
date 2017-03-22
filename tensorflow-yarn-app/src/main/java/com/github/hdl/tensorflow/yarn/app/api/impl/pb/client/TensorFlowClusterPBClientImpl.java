@@ -17,31 +17,31 @@
  */
 package com.github.hdl.tensorflow.yarn.app.api.impl.pb.client;
 
-import com.github.hdl.tensorflow.yarn.app.api.TensorflowCluster;
-import com.github.hdl.tensorflow.yarn.app.api.TensorflowClusterPB;
+import com.github.hdl.tensorflow.yarn.app.api.TensorFlowCluster;
+import com.github.hdl.tensorflow.yarn.app.api.TensorFlowClusterPB;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.GetClusterSpecRequest;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.GetClusterSpecResponse;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.impl.pb.GetClusterSpecRequestPBImpl;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.impl.pb.GetClusterSpecResponsePBImpl;
-import com.github.hdl.tensorflow.yarn.proto.YarnTensorflowClusterProtos.GetClusterSpecRequestProto;
 import com.google.protobuf.ServiceException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ipc.ProtobufRpcEngine;
 import org.apache.hadoop.ipc.RPC;
 import org.apache.hadoop.yarn.exceptions.YarnException;
 import org.apache.hadoop.yarn.ipc.RPCUtil;
+import org.apache.hadoop.yarn.proto.YarnTensorFlowClusterProtos.GetClusterSpecRequestProto;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class TensorflowClusterPBClientImpl implements TensorflowCluster, Closeable {
-  private TensorflowClusterPB proxy;
+public class TensorFlowClusterPBClientImpl implements TensorFlowCluster, Closeable {
+  private TensorFlowClusterPB proxy;
 
-  public TensorflowClusterPBClientImpl(long clientVersion, InetSocketAddress addr, Configuration conf) throws IOException {
-    RPC.setProtocolEngine(conf, TensorflowClusterPB.class, ProtobufRpcEngine.class);
-    proxy = (TensorflowClusterPB) RPC.getProxy(
-      TensorflowClusterPB.class, clientVersion, addr, conf);
+  public TensorFlowClusterPBClientImpl(long clientVersion, InetSocketAddress addr, Configuration conf) throws IOException {
+    RPC.setProtocolEngine(conf, TensorFlowClusterPB.class, ProtobufRpcEngine.class);
+    proxy = (TensorFlowClusterPB) RPC.getProxy(
+      TensorFlowClusterPB.class, clientVersion, addr, conf);
   }
 
   @Override

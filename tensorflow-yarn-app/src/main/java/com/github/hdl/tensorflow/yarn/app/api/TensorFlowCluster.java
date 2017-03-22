@@ -23,7 +23,7 @@ import org.apache.hadoop.yarn.exceptions.YarnException;
 
 import java.io.IOException;
 
-public interface TensorflowCluster {
+public interface TensorFlowCluster {
   public GetClusterSpecResponse getClusterSpec(GetClusterSpecRequest request)
     throws YarnException, IOException;
 }

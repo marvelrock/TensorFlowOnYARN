@@ -18,10 +18,10 @@
 package com.github.hdl.tensorflow.yarn.app.api;
 
 import org.apache.hadoop.ipc.ProtocolInfo;
-import com.github.hdl.tensorflow.yarn.proto.TensorflowClusterServiceProtos.TensorflowClusterService;
+import org.apache.hadoop.yarn.proto.TensorFlowCluster.TensorFlowClusterService;
 
 @ProtocolInfo(
   protocolName = "org.apache.hadoop.yarn.server.api.ResourceTrackerPB",
   protocolVersion = 1)
-public interface TensorflowClusterPB extends TensorflowClusterService.BlockingInterface {
+public interface TensorFlowClusterPB extends TensorFlowClusterService.BlockingInterface {
 }

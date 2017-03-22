@@ -35,7 +35,7 @@ do
 shift
 done
 
-CLIENT_MAIN_CLASS="org.apache.hadoop.yarn.applications.tensorflow.Client"
+CLIENT_MAIN_CLASS="com.github.hdl.tensorflow.yarn.app.Client"
 
 yarn jar $JAR $CLIENT_MAIN_CLASS \
          --jar $JAR \
@@ -43,5 +43,4 @@ yarn jar $JAR $CLIENT_MAIN_CLASS \
          --num_worker $WORKERS \
          --num_ps $PSES \
          --container_memory 1024 \
-         --jni_so "../samples/between-graph/libbridge.so" \
-         --tf_so "../samples/between-graph/libgrpc_tensorflow_server.so"
+         --jni_so "../samples/between-graph/libbridge.so" 

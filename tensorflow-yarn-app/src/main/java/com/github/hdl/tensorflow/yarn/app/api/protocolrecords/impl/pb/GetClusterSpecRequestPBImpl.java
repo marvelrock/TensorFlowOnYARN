@@ -17,9 +17,8 @@
  */
 package com.github.hdl.tensorflow.yarn.app.api.protocolrecords.impl.pb;
 
-
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.GetClusterSpecRequest;
-import com.github.hdl.tensorflow.yarn.proto.YarnTensorflowClusterProtos.GetClusterSpecRequestProto;
+import org.apache.hadoop.yarn.proto.YarnTensorFlowClusterProtos.GetClusterSpecRequestProto;
 
 public class GetClusterSpecRequestPBImpl extends GetClusterSpecRequest {
   private GetClusterSpecRequestProto proto = GetClusterSpecRequestProto.getDefaultInstance();

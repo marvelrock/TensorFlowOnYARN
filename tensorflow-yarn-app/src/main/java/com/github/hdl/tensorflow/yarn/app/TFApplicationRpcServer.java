@@ -18,7 +18,7 @@
 
 package com.github.hdl.tensorflow.yarn.app;
 
-import com.github.hdl.tensorflow.yarn.app.api.TensorflowCluster;
+import com.github.hdl.tensorflow.yarn.app.api.TensorFlowCluster;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.GetClusterSpecRequest;
 import com.github.hdl.tensorflow.yarn.app.api.protocolrecords.GetClusterSpecResponse;
 import org.apache.hadoop.conf.Configuration;
@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 
-public class TFApplicationRpcServer implements TensorflowCluster, Runnable {
+public class TFApplicationRpcServer implements TensorFlowCluster, Runnable {
   private int rpcPort = -1;
   private String rpcAddress = null;
 
@@ -83,7 +83,7 @@ public class TFApplicationRpcServer implements TensorflowCluster, Runnable {
     YarnRPC rpc = YarnRPC.create(conf);
     InetSocketAddress address = new InetSocketAddress(rpcAddress, rpcPort);
     this.server = rpc.getServer(
-        TensorflowCluster.class, this, address, conf, null,
+        TensorFlowCluster.class, this, address, conf, null,
         conf.getInt(YarnConfiguration.RM_RESOURCE_TRACKER_CLIENT_THREAD_COUNT,
             YarnConfiguration.DEFAULT_RM_RESOURCE_TRACKER_CLIENT_THREAD_COUNT));
 

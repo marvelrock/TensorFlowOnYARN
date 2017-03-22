@@ -15,10 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-option java_package = "com.github.hdl.tensorflow.yarn.proto";
+option java_package = "org.apache.hadoop.yarn.proto";
+option java_outer_classname = "TensorFlowCluster";
+
 option java_generic_services = true;
 import "yarn_tensorflow_cluster_protos.proto";
 
-service TensorflowClusterService {
+service TensorFlowClusterService {
   rpc getClusterSpec(GetClusterSpecRequestProto) returns (GetClusterSpecResponseProto);
 }

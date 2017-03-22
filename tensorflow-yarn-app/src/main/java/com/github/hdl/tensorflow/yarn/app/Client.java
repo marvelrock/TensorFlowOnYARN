@@ -70,15 +70,12 @@ public class Client {
 
   private String nodeLabelExpression = null;
 
-  // log4j.properties file
   // if available, add to local resources and set into classpath
   private String log4jPropFile = "";
 
   private long attemptFailuresValidityInterval = -1;
 
   private Vector<CharSequence> containerRetryOptions = new Vector<>(5);
-
-  private String masterAddress;
 
   private String clusterSpecJsonString = null;
 
@@ -92,8 +89,6 @@ public class Client {
   private int psNum;
 
   private TFApplicationRpc appRpc = null;
-
-  private String tfSoFile = "";
 
   private String jniSoFile = "";
   /**
@@ -131,7 +126,7 @@ public class Client {
    */
   public Client(Configuration conf) throws Exception  {
     this(
-      "org.apache.hadoop.yarn.applications.tensorflow.ApplicationMaster",
+      ApplicationMaster.class.getCanonicalName(),
       conf);
   }
 
@@ -182,8 +177,6 @@ public class Client {
             "ps quantity of tensorflow");
     opts.addOption(TFApplication.OPT_TF_JNI_SO, true,
             "jni so of tensorflow");
-    opts.addOption(TFApplication.OPT_TF_TF_SO, true,
-            "tf so of tensorflow");
   }
 
   /**
@@ -240,7 +233,6 @@ public class Client {
 
     appMasterJar = cliParser.getOptionValue("jar");
 
-    tfSoFile = cliParser.getOptionValue(TFApplication.OPT_TF_TF_SO, "");
     jniSoFile = cliParser.getOptionValue(TFApplication.OPT_TF_JNI_SO, "");
 
     if (!cliParser.hasOption(TFApplication.OPT_TF_CLIENT)) {
@@ -393,11 +385,7 @@ public class Client {
 
     String jniSoDfsPath = "";
     if (jniSoFile != null && !jniSoFile.equals("")) {
-      jniSoDfsPath = copyLocalFileToDfs(fs, appId.toString(), jniSoFile, "TFServer.so");
-    }
-    String tfSoDfsPath = "";
-    if (tfSoFile != null && !tfSoFile.equals("")) {
-      tfSoDfsPath = copyLocalFileToDfs(fs, appId.toString(), tfSoFile, "Tensorflow.so");
+      jniSoDfsPath = copyLocalFileToDfs(fs, appId.toString(), jniSoFile, "libbridge.so");
     }
     // Set the log4j properties if needed
 /*    if (!log4jPropFile.isEmpty()) {
@@ -415,7 +403,7 @@ public class Client {
     }
 
     StringBuilder command = tfAmContainer.makeCommands(amMemory, appMasterMainClass, containerMemory, containerVirtualCores,
-        workerNum, psNum, dstJarPath, containerRetryOptions, jniSoDfsPath, tfSoDfsPath);
+        workerNum, psNum, dstJarPath, containerRetryOptions, jniSoDfsPath);
 
     LOG.info("AppMaster command: " + command.toString());
     List<String> commands = new ArrayList<String>();

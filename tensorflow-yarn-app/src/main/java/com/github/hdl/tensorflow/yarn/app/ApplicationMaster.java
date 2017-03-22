@@ -142,7 +142,6 @@ public class ApplicationMaster {
   private String tfServerJar = "";
 
   private String jniSoDfsPath = "";
-  private String tfSoDfsPath = "";
 
   // Hardcoded path to custom log_properties
   private static final String log4jPath = "log4j.properties";
@@ -233,7 +232,6 @@ public class ApplicationMaster {
 
     opts.addOption(TFApplication.OPT_TF_SERVER_JAR, true, "Provide container jar of tensorflow");
     opts.addOption(TFApplication.OPT_TF_JNI_SO, true, "jni so of tensorflow");
-    opts.addOption(TFApplication.OPT_TF_TF_SO, true, "tf so of tensorflow");
     opts.addOption(TFApplication.OPT_TF_WORKER_NUM, true, "Provide worker server number of tensorflow");
     opts.addOption(TFApplication.OPT_TF_PS_NUM, true, "Provide ps server number of tensorflow");
 
@@ -331,7 +329,6 @@ public class ApplicationMaster {
         TFApplication.OPT_TF_CONTAINER_RETRY_INTERVAL, "0"));
 
     tfServerJar = cliParser.getOptionValue(TFApplication.OPT_TF_SERVER_JAR, TFAmContainer.APPMASTER_JAR_PATH);
-    tfSoDfsPath = cliParser.getOptionValue(TFApplication.OPT_TF_TF_SO, "");
     jniSoDfsPath = cliParser.getOptionValue(TFApplication.OPT_TF_JNI_SO, "");
 
     clusterSpec = ClusterSpec.makeClusterSpec(numTotalWokerContainers, numTotalParamServerContainer);
@@ -584,7 +581,6 @@ public class ApplicationMaster {
             this, clusterSpec.getServerAddress(allocatedContainer.getId().toString()));
         launchDelegator.setTfServerJar(tfServerJar);
         launchDelegator.setJniSoDfsPath(jniSoDfsPath);
-        launchDelegator.setTfSoDfsPath(tfSoDfsPath);
         launchDelegator.setContainerMemory(containerMemory);
         launchDelegator.setContainerRetryPolicy(containerRetryPolicy);
         launchDelegator.setContainerRetryErrorCodes(containerRetryErrorCodes);

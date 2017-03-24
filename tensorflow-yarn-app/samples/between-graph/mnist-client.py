@@ -7,12 +7,13 @@ from tensorflow.examples.tutorials.mnist import input_data
 # input flags
 tf.app.flags.DEFINE_string("ps", "", "ps hosts")
 tf.app.flags.DEFINE_string("wk", "", "worker hosts")
-tf.app.flags.DEFINE_string("target", "", "target url")
 tf.app.flags.DEFINE_integer("task_index", "", "task index")
 FLAGS = tf.app.flags.FLAGS
 
 ps_hosts = FLAGS.ps.split(',')
 worker_hosts = FLAGS.wk.split(',')
+task_index = FLAGS.task_index
+master = "grpc://" + worker_hosts[task_index]
 
 # start a server for a specific task
 cluster = tf.train.ClusterSpec({'ps': ps_hosts, 'worker': worker_hosts})
@@ -21,14 +22,14 @@ cluster = tf.train.ClusterSpec({'ps': ps_hosts, 'worker': worker_hosts})
 batch_size = 100
 learning_rate = 0.0005
 training_epochs = 20
-logs_path = "/tmp/mnist/1"
+logs_path = "/tmp/between-graph/mnist/" + task_index
 
 # load mnist data set
 mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
 # Between-graph replication
 with tf.device(tf.train.replica_device_setter(
-        worker_device="/job:worker/task:%d" % FLAGS.task_index,
+        worker_device="/job:worker/task:%d" % task_index,
         cluster=cluster)):
   # count the number of updates
   global_step = tf.get_variable('global_step', [],
@@ -86,13 +87,13 @@ with tf.device(tf.train.replica_device_setter(
   init_op = tf.global_variables_initializer()
   print("Variables initialized ...")
 
-  sv = tf.train.Supervisor(is_chief=(FLAGS.task_index == 0),
+  sv = tf.train.Supervisor(is_chief=(task_index == 0),
                            global_step=global_step,
                            init_op=init_op)
 
   begin_time = time.time()
   frequency = 100
-  with sv.prepare_or_wait_for_session(FLAGS.target) as sess:
+  with sv.prepare_or_wait_for_session(master) as sess:
 
     # create log writer object (this will log on every machine)
     writer = tf.summary.FileWriter(logs_path, graph=tf.get_default_graph())

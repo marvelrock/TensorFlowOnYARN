@@ -1,6 +1,8 @@
 ## TensorFlowOnYARN [![Build Status](https://travis-ci.org/Intel-bigdata/TensorFlowOnYARN.svg?branch=master)](https://travis-ci.org/Intel-bigdata/TensorFlowOnYARN)
 
 TensorFlow on YARN (TOY) is a toolkit to enable Hadoop users an easy way to run TensorFlow applications in distributed pattern and accomplish tasks including model management and serving inference.
+* This project focuses on support of running Tensorflow on YARN, as part of Deep Learning on Hadoop ([HDL](https://github.com/Intel-bigdata/HDL)) effort. 
+* [YARN-6043](https://issues.apache.org/jira/browse/YARN-6043)
 
 ## Goals
 
@@ -32,9 +34,8 @@ Figure1. TOY Architecture
 - [x] RPC support for client to get ClusterSpec from AM
 - [x] Signal handling for graceful shutdown
 - [x] Package TensorFlow runtime as a resource that can be distributed easily
-- [ ] A launcher script for client mode to run multiple TensorFlow application clients
-- [ ] Run in-graph TensorFlow application in client mode
-- [ ] TensorBoard support
+- [x] Run in-graph TensorFlow application in client mode
+- [x] TensorBoard support
 - [ ] Better handling of network port conflicts
 - [ ] Fault tolerance
 - [ ] Cluster mode based on Docker
@@ -84,7 +85,3 @@ Figure1. TOY Architecture
      --task_index=1
    ```
 
-## Related discussions
-
-* This project focuses on support of running Tensorflow on YARN, as part of Deep Learning on Hadoop ([HDL](https://github.com/Intel-bigdata/HDL)) effort. 
-* [YARN-6043](https://issues.apache.org/jira/browse/YARN-6043)

@@ -63,7 +63,7 @@ Figure1. TOY Architecture
    in the `tensorflow-parent/tensorflow-yarn-dist/target` directory. Distribute the assembly
    to the client node of a YARN cluster and extract.
    
-3. Run the [between-graph mnist example](examples/between-graph/mnist-client.py)
+3. Run the [between-graph mnist example](examples/between-graph/mnist_feed.py)
 
    ```bash
    cd tensorflow-yarn-${VERSION}

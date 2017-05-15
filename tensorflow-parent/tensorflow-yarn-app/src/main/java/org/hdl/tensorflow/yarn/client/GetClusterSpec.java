@@ -17,6 +17,7 @@ package org.hdl.tensorflow.yarn.client;
 import org.apache.commons.cli.CommandLine;
 import org.apache.hadoop.yarn.api.records.ApplicationId;
 import org.apache.hadoop.yarn.client.api.YarnClient;
+import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.hdl.tensorflow.yarn.appmaster.ClusterSpec;
 import org.hdl.tensorflow.yarn.util.Constants;
 import org.hdl.tensorflow.yarn.util.Utils;
@@ -39,7 +40,8 @@ public class GetClusterSpec implements Client.Command {
 
   @Override
   public boolean run() throws Exception {
-    ClusterSpec spec = Client.getClusterSpec(yarnClient, ApplicationId.fromString(appId));
+//    ClusterSpec spec = Client.getClusterSpec(yarnClient, ApplicationId.fromString(appId));
+    ClusterSpec spec = Client.getClusterSpec(yarnClient, ConverterUtils.toApplicationId(appId));
     System.out.println("ClusterSpec: " + Utils.toJsonString(spec.getCluster()));
     return true;
   }

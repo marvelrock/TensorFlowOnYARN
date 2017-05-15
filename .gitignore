@@ -16,3 +16,4 @@
 target
 build
 dependency-reduced-pom.xml
+tensorflow-parent/tensorflow-native/tensorflow/

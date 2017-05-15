@@ -144,7 +144,7 @@ public class LaunchCluster implements Client.Command {
       String queue) throws Exception {
     ApplicationSubmissionContext appContext = app.getApplicationSubmissionContext();
     appContext.setApplicationName(appName);
-    appContext.setApplicationTags(new HashSet<>());
+//    appContext.setApplicationTags(new HashSet<>());
     appContext.setAMContainerSpec(launchContext);
     appContext.setResource(resource);
     appContext.setQueue(queue);

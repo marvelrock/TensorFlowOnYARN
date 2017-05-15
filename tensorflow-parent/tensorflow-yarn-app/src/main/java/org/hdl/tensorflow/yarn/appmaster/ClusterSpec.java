@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class ClusterSpec {
   }
 
   private ClusterSpec() {
-    this(Maps.newHashMap());
+    this(new HashMap<String, List<String>>());
   }
 
   private ClusterSpec(Map<String, List<String>> cluster) {
@@ -64,14 +65,16 @@ public class ClusterSpec {
 
   public void addWorkerSpec(String address) {
     if (!cluster.containsKey(WORKER)) {
-      cluster.put(WORKER, Lists.newArrayList());
+      List<String> listString = Lists.newArrayList();
+      cluster.put(WORKER, listString);
     }
     cluster.get(WORKER).add(address);
   }
 
   public void addPsSpec(String address) {
     if (!cluster.containsKey(PS)) {
-      cluster.put(PS, Lists.newArrayList());
+      List<String> listString = Lists.newArrayList();
+      cluster.put(PS, listString);
     }
     cluster.get(PS).add(address);
   }

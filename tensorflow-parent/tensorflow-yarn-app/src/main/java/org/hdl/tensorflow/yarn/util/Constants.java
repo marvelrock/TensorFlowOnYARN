@@ -46,6 +46,6 @@ public class Constants {
   public static final String TF_LIB_NAME = "lib" + TFServer.TF_LIB + ".so";
 
   public static final String HDFS_NS = "HDFS_NS";
-  public static final String APP_MASTER_PREFIX = "tensorflow.yarn.appMasterEnv";
-  public static final String EXECUTOR_PREFIX = "tensorflow.executorEnv";
+  public static final String APP_MASTER_PREFIX = "tensorflow.yarn.appMasterEnv.";
+  public static final String EXECUTOR_PREFIX = "tensorflow.executorEnv.";
 }

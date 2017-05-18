@@ -135,6 +135,8 @@ public class Utils {
         "TensorFlow JNI library");
     opts.addOption(Constants.OPT_TF_JAR, true,
         "Jar file containing TensorFlow server");
+    opts.addOption("conf", true,
+            "docker related configurations");
   }
 
   public static String toJsonString(Object object) throws JsonProcessingException {

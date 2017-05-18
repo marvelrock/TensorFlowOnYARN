@@ -29,6 +29,7 @@ import org.apache.hadoop.yarn.api.records.LocalResource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class LaunchContainerThread extends Thread {
 
@@ -60,6 +61,15 @@ public class LaunchContainerThread extends Thread {
       Map<String, String> env = Utils.setJavaEnv(appMaster.getConfiguration());
       String current = ApplicationConstants.Environment.LD_LIBRARY_PATH.$$();
       env.put("LD_LIBRARY_PATH", current + ":" + "`pwd`");
+      {
+        Set<String> propNames = System.getProperties().stringPropertyNames();
+        for (String name : propNames) {
+          if (name.startsWith(Constants.EXECUTOR_PREFIX)) {
+            String value = System.getProperties().getProperty(name);
+            env.put(name.substring(Constants.EXECUTOR_PREFIX.length()), value);
+          }
+        }
+      }
 
       Map<String, Path> files = new HashMap<>();
       files.put(Constants.TF_JAR_NAME, new Path(tfJar));
@@ -73,6 +83,7 @@ public class LaunchContainerThread extends Thread {
           containerMemory, clusterSpec.toBase64EncodedJsonString(),
           taskInfo.jobName, taskInfo.taskIndex);
 
+      LOG.info("New container's environment: " + env.toString());
       LOG.info("Launching a new container."
           + ", containerId=" + container.getId()
           + ", containerNode=" + container.getNodeId().getHost()

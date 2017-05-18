@@ -17,6 +17,7 @@ package org.hdl.tensorflow.yarn.appmaster;
 import org.hdl.tensorflow.yarn.rpc.TFApplicationRpc;
 import org.hdl.tensorflow.yarn.rpc.impl.TFApplicationRpcServer;
 import org.hdl.tensorflow.yarn.tfserver.TFTaskInfo;
+import org.hdl.tensorflow.yarn.util.Constants;
 import org.hdl.tensorflow.yarn.util.ProcessRunner;
 import org.hdl.tensorflow.yarn.util.Utils;
 import org.apache.commons.cli.CommandLine;
@@ -94,6 +95,11 @@ public class ApplicationMaster extends ProcessRunner {
   public ApplicationMaster() {
     super("ApplicationMaster");
     conf = new YarnConfiguration();
+    Map<String, String> envs = System.getenv();
+    if (envs.containsKey(Constants.HDFS_NS)) {
+      conf.set("fs.defaultFS", envs.get(Constants.HDFS_NS));
+      LOG.info("Use fs.defaultFS: " + envs.get(Constants.HDFS_NS));
+    }
   }
 
   public static void main(String[] args) {

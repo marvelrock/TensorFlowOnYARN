@@ -107,6 +107,15 @@ public class LaunchCluster implements Client.Command {
       throw new IllegalArgumentException(
           "Illegal number of TensorFlow ps task specified: " + psNum);
     }
+
+    if (cliParser.hasOption("conf")) {
+      String[] confOptions = cliParser.getOptionValues("conf");
+      for (String opt : confOptions) {
+        String[] kv = opt.split("=");
+        System.setProperty(kv[0], kv[1]);
+
+      }
+    }
   }
 
   public boolean run() throws Exception {
@@ -123,8 +132,23 @@ public class LaunchCluster implements Client.Command {
     files.put(Constants.TF_JAR_NAME, dstJarPath);
     Map<String, LocalResource> localResources = Utils.makeLocalResources(fs, files);
     Map<String, String> javaEnv = Utils.setJavaEnv(conf);
+
+    {
+      Set<String> propNames = System.getProperties().stringPropertyNames();
+      for (String name : propNames) {
+        if (name.startsWith(Constants.APP_MASTER_PREFIX)) {
+          String value = System.getProperties().getProperty(name);
+          javaEnv.put(name.substring(Constants.APP_MASTER_PREFIX.length()), value);
+        }
+      }
+    }
+
+    String hdfsNS = conf.get("fs.defaultFS");
+    javaEnv.put(Constants.HDFS_NS, hdfsNS);
+    LOG.info("Make ApplicationMaster use HDFS namespace " + hdfsNS);
     String command = makeAppMasterCommand(dstLibPath.toString(), dstJarPath.toString());
     LOG.info("Make ApplicationMaster command: " + command);
+    LOG.info("ApplicaitonMaster environment: " + javaEnv.toString());
     ContainerLaunchContext launchContext = ContainerLaunchContext.newInstance(
         localResources, javaEnv, Lists.newArrayList(command), null, null, null);
     Resource resource = Resource.newInstance(amMemory, amVCores);
